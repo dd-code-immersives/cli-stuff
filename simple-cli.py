@@ -30,12 +30,19 @@ def random_cli():
 			print("Sorry try again!")
 		else:
 			print("you guessed correctly!")
-			break	
+			break  
 
 
 def main():
-	
-	random_cli()
+	while True:
+		random_cli()
+		response = input("Play again? y/n")
+		if response ==  "n":
+			print("goodbye!")
+			break 
+
+
+
 
 if __name__ == '__main__':
 	main()
