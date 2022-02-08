@@ -17,10 +17,9 @@ def random_cli():
 
 	# generate the number 
 	random_num = rn.randrange(args.nrange[0], args.nrange[1])
-	guessed_num = None
 	print(f"Random number generated! Between the range of {start_r} and {end_r}")
 
-	while guessed_num != random_num:
+	while True:
 		try:
 			guessed_num = int(input(f"Guess number between {start_r}-{end_r}:"))
 		except Exception as e:
