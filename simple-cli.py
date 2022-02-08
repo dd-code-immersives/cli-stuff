@@ -1,33 +1,40 @@
 import argparse
 import random as rn
 
-# DEFAULTS
-START_RANGE = 1 
-END_RANGE = 5 
-
 
 def random_cli():
 
 	# build CLI 
-	parser = argparse.ArgumentParser(description="Random Number Generator")
-	parser.add_argument("-n","--number",action='store', type=int, help="generates n random numbers", default=0)
-	parser.add_argument("--nrange",action='store', help="specifies max number", nargs=2, type=int)
+	parser = argparse.ArgumentParser(description="Guess The Number game, try to guess the number between a given range")
+	#parser.add_argument("-n","--number",action='store', type=int, help="generates n random numbers", default=0)
+	parser.add_argument("--nrange",action='store', help="specifies max number", nargs=2, type=int, default=[1,5])
 	args = parser.parse_args()
 
+	print("Welcome to guess the number!")
 
-	# handle user input from CLI
-	if args.nrange:
-		START_RANGE = args.nrange[0]
-		END_RANGE  = args.nrange[1]
+	start_r = args.nrange[0]
+	end_r = args.nrange[1]
 
-	if args.number > 1:
-		for i in range(args.number):
-			print(rn.randrange(START_RANGE, END_RANGE)) 
-	else:
-		print(rn.randrange(START_RANGE,END_RANGE))
+	# generate the number 
+	random_num = rn.randrange(args.nrange[0], args.nrange[1])
+	guessed_num = None
+	print(f"Random number generated! Between the range of {start_r} and {end_r}")
+
+	while guessed_num != random_num:
+		try:
+			guessed_num = int(input(f"Guess number between {start_r}-{end_r}:"))
+		except Exception as e:
+			raise e
+
+		if guessed_num != random_num:
+			print("Sorry try again!")
+		else:
+			print("you guessed correctly!")
+			break	
 
 
 def main():
+	
 	random_cli()
 
 if __name__ == '__main__':
