@@ -12,6 +12,8 @@ Try to refactor this code, to make a little CLI game out of this code called gue
 
 "Welcome to guess the number between range of 1-5"
 
+
+```
 Number generated (5)
 
 Guess number: 3  
@@ -20,3 +22,5 @@ Guess number: 4
 wrong! 
 Guess number: 5 
 correct!, you guessed it!
+
+```
