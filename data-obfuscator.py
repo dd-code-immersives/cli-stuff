@@ -17,13 +17,8 @@ def obfuscate_cli():
 	if args.infile and args.outfile:
 		data = csv.DictReader(args.infile)
 		for line in data:
-
-			args.outfile.write(",".join([line['id'], 
-				line['username'], 
-				obfuscate_password(line['password']), 
-				line['email'], '\n'])) 
-
-
+			new_row = ",".join([line['id'], line['username'], obfuscate_password(line['password']), line['email'], '\n'])
+			args.outfile.write(new_row)
 
 def obfuscate_password(pw):
 	return ''.join(['*' for i in range(rn.randint(3, 20))])
