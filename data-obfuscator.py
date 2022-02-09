@@ -14,19 +14,14 @@ def obfuscate_cli():
 	parser.add_argument('--outfile', type=argparse.FileType('w'))
 
 	args = parser.parse_args()
-
-	# if args.infile:
-	# 	data = csv.reader(args.infile)
-	# 	for line in data:
-	# 		print(line[2])
-	# 		print(obfuscate_password(line[2]))
-
-	# dictreader version
-	if args.infile:
+	if args.infile and args.outfile:
 		data = csv.DictReader(args.infile)
 		for line in data:
-			print(line['password'])
-			print(obfuscate_password(line['password'])) 
+
+			args.outfile.write(",".join([line['id'], 
+				line['username'], 
+				obfuscate_password(line['password']), 
+				line['email'], '\n'])) 
 
 
 
