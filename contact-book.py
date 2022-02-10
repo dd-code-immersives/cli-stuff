@@ -1,5 +1,6 @@
 
 import argparse
+import csv
 """
 Write a CLI that interacts with a csv file, that allows you to save contact information in the CSV file. 
 
@@ -26,6 +27,11 @@ NOTE: separate the CLI from the logic
 
 """
 
+parser = argparse.ArgumentParser(description="Tool for managing CSV file of Contact Data")
+parser.add_argument('-in','--infile', action='store', type=argparse.FileType('r'))
+args = parser.parse_args()
 
-
-
+if args.infile:
+	data = csv.reader(args.infile)
+	for row in data:
+		print(row)
