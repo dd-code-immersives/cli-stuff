@@ -37,7 +37,7 @@ def contact_book_cli():
 	parser.add_argument('infile', type=pathlib.Path, help="Input file name/path is required")
 	parser.add_argument('--search', action='store', nargs='+', help="When an ID number is given, will ignore the rest of the arguments")
 	parser.add_argument('--update', action='store', nargs='+', help='Requires ID number and will not run without one')
-	parser.add_argument('--browse', action='store', type=int, nargs='+', help="Single number returns df.head(num), two digits returns df.loc[num_1:num_2, :]")
+	parser.add_argument('--browse', action='store', type=int, nargs=3, help="Single number returns df.head(num), two-three numberes returns df.loc[num_1:num_2:num_3(default=1), :]")
 	args = parser.parse_args()
 
 	if args.infile:
@@ -54,12 +54,17 @@ def contact_book_cli():
 			else:
 				raise Exception("Need Column - New Information Pair to Update, No Column - New Information Pair Found")
 		elif args.browse:
-			if len(args.browse) < 2:
+			nums = args.browse
+			cnt = len(args.browse)
+			if cnt < 2:
 				'''When one number digit is passed'''
-				print(data_file.csv_to_df().head(args.browse[0]))
-			else:
+				print(data_file.csv_to_df().head(nums[0]))
+			elif cnt == 2:
 				'''When two numbers are pasased'''
-				print(data_file.csv_to_df().loc[args.browse[0]:args.browse[1], :])
+				print(data_file.csv_to_df().loc[nums[0]:nums[1], :])
+			elif cnt > 2:
+				'''When three numbers are pasased'''
+				print(data_file.csv_to_df().loc[nums[0]:nums[1]:nums[2], :])
 
 if __name__ == "__main__":
 	contact_book_cli()
