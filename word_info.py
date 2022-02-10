@@ -55,4 +55,3 @@ class LetterCounts():
                     unique_consonant[lett] +=1
         value_sum = sum(unique_consonant.values())
         return value_sum
-   
