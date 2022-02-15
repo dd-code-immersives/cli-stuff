@@ -19,6 +19,10 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
                     '?':'..--..', '/':'-..-.', '-':'-....-',
                     '(':'-.--.', ')':'-.--.-'}
 
+MORSE_SPECIAL = {'...---...': 'SOS'}
+
+THREE_SPACES = 3*' '
+
 def random_cli(num_one, num_two):
 
 	print("Welcome to guess the number!")
@@ -50,19 +54,40 @@ def num_series(num_str):
 def sq_everything(num):
 	return print("\n"+"".join([str(int(i)**2) for i in num])+"\n")
 
-def decode_morse(codes):
-	if codes == "...---...":
-		res = "SOS"
-	else:
-		codes = [code.split(" ") for code in codes.split("   ")]
-		res = ""
-		for word in codes:
+def decode_morse(message):
+	res = ""
+	message = message.split(THREE_SPACES)
+	for code in message:
+		'''
+		Checks if the message falls under specail service codes.
+		If not, starts decoding.
+		'''
+		if code in MORSE_SPECIAL:
+			res += MORSE_SPECIAL[code]+" "
+		else:
+			word = code.split()
 			for letter in word:
-				for k,v in MORSE_CODE_DICT.items():
-					if letter == v:
-						res += k
+				for key,value in MORSE_CODE_DICT.items():
+					if letter == value:
+						res += key
 			res += " "
-	return res
+	return '\n'+res+'\n'
+
+def encode_morse(clear_text):
+	res = ""
+	for word in clear_text.split():
+		word = word.upper()
+		if word in MORSE_SPECIAL.values():
+			for key in MORSE_SPECIAL.keys():
+				if MORSE_SPECIAL[key] == word:
+					res += key+THREE_SPACES
+		else:
+			for letter in word:
+				for key, value in MORSE_CODE_DICT.items():
+					if key == letter:
+						res += value+" "
+			res += THREE_SPACES
+	return '\n'+res+'\n'
 
 def main(var_x, var_y):
 	while True:
@@ -78,14 +103,17 @@ if __name__ == '__main__':
 	parser.add_argument('--number', action='store', type=str)
 	parser.add_argument("--nrange",action='store', help="specifies max number", nargs=2, type=int, default=[1,5])
 	parser.add_argument('--sq_em', action='store', nargs=1)
-	parser.add_argument('--morse', action='store')
+	parser.add_argument('--demorse', action='store')
+	parser.add_argument('--enmorse', action='store')
 	args = parser.parse_args()
 	if args.number:
 		num_series(args.number)
 	elif args.sq_em:
 		sq_everything(args.sq_em[0])
-	elif args.morse:
-		print(decode_morse(args.morse))
+	elif args.demorse:
+		print(decode_morse(args.demorse))
+	elif args.enmorse:
+		print(encode_morse(args.enmorse))
 	else:
 		main(args.nrange[0], args.nrange[1])
 
