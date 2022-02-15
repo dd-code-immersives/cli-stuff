@@ -34,10 +34,13 @@ def contact_book_cli():
 
 	parser = argparse.ArgumentParser(description="Tool for managing CSV file of Contact Data")
 	# parser.add_argument('-in','--infile', action='store', type=argparse.FileType('r'))
-	parser.add_argument('infile', type=pathlib.Path, help="Input file name/path is required")
+	parser.add_argument('--infile', type=pathlib.Path, help="Input file name/path is required")
 	parser.add_argument('--search', action='store', nargs='+', help="When an ID number is given, will ignore the rest of the arguments")
 	parser.add_argument('--update', action='store', nargs='+', help='Requires ID number and will not run without one')
 	parser.add_argument('--browse', action='store', type=int, nargs='+', help="Single number returns df.loc[num, :], two-three numberes returns df.loc[num_1:num_2:num_3(default=1), :]")
+	parser.add_argument('--sql', action='store_true')
+	parser.add_argument('--user_search', action='store', nargs='+', help="When an ID number is given, will ignore the rest of the arguments")
+	parser.add_argument('--user_update', action='store', nargs='+', help='Requires User ID and will not run without one')
 	args = parser.parse_args()
 
 	if args.infile:
@@ -55,6 +58,13 @@ def contact_book_cli():
 				raise Exception("Need Column - New Information Pair to Update, No Column - New Information Pair Found")
 		elif args.browse:
 			data_file.browse(args.browse)
+	elif args.sql:
+		db = DataBase()
+		if args.user_search and len(args.user_search) > 1:
+			db.user_search(args.user_search)
+		elif args.user_update and len(args.user_update) > 2:
+			db.user_update(args.user_update)
+
 
 if __name__ == "__main__":
 	contact_book_cli()
