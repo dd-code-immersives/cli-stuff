@@ -26,45 +26,60 @@ THREE_SPACES = " " * 3
 
 
 
-def lookup_morse_char(ch):
-     for k,v in MORSE_CODE_DICT.items(): 
-          if ch == v:
-               return k
-     return str()
+class MorseCode():
+
+     def __init__(self,msg):
+         self.message = msg
+
+     def _lookup_morse_char(self, ch):
+          """
+
+          """
+
+          for k,v in MORSE_CODE_DICT.items(): 
+               if ch == v:
+                    return k
+          return str()
 
 
-def encode_morse(message="HEY JUDE"):
-     morse_wds = []
-     for wd in message.split():
-          morse_msg = str()
-          for ch in wd:
-               morse_msg += MORSE_CODE_DICT[ch]
-               morse_msg += " "
-          morse_wds.append(morse_msg.strip())
+     def encode_morse(self):
+          """
+          encode text into morse code
+          """
+          morse_wds = []
+          for wd in self.message.split():
+               morse_msg = str()
+               for ch in wd:
+                    morse_msg += MORSE_CODE_DICT[ch]
+                    morse_msg += " "
+               morse_wds.append(morse_msg.strip())
 
-     return THREE_SPACES.join(morse_wds)
+          return THREE_SPACES.join(morse_wds)
 
-     
+          
 
-def decode_morse(message):
+     def decode_morse(self):
 
-     """
-     decodes morse into clear text
-     """
-     if message in SPECIAL_CODES:
+          """
+          decodes morse into clear text
+          """
+          if self.message in SPECIAL_CODES:
 
-          return SPECIAL_CODES[message]
+               return SPECIAL_CODES[message]
 
-     decrypted_wds = []
-     for wd in message.split(THREE_SPACES):
-          str_ = "".join([ lookup_morse_char(ch) for ch in wd.split()])
-          decrypted_wds.append(str_)
-     return " ".join(decrypted_wds)
+          decrypted_wds = []
+          for wd in self.message.split(THREE_SPACES):
+               str_ = "".join([ self.lookup_morse_char(ch) for ch in wd.split()])
+               decrypted_wds.append(str_)
+          return " ".join(decrypted_wds)
 
-
+class Encryption():
+     pass
 if __name__ == '__main__':
-     #print(decode_morse('.... . -.--   .--- ..- -.. .'))
-     encoded = encode_morse('HEY JUDE')
-     print(f"Encoded message: {encoded}")
-     print(f"Decoded Message: {decode_morse(encoded)}")
+     morse =  MorseCode('.... . -.--   .--- ..- -.. .')
+     print(morse.decode_morse())
+     # encoded = encode_morse('HEY JUDE')
+     # print(f"Encoded message: {encoded}")
+     # print(f"Decoded Message: {morse.decode_morse(encoded)}")
+     # print(f"Decoded Special Messsage: {morse.decode_morse('···−−−···')}")
 
