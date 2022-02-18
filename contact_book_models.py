@@ -26,12 +26,10 @@ class Users(Base):
     phone_number = Column(VARCHAR(20), nullable=True)
     city = Column(VARCHAR(50), nullable=False)
 
-# class Transactions(Base):
-#     __tablename__ = "patient_transactions"
+class User_Pswd(Base):
+    __tablename__ = "user_password"
 
-#     id = Column(Integer, primary_key=True)
-#     emp_id = Column(VARCHAR(20), nullable=False)
-#     trans_id = Column(VARCHAR(15), nullable=False)
-#     procedure_date = Column(Date, nullable=False)
-#     medical_code = Column(VARCHAR(10), nullable=False)
-#     procedure_price = Column(Float, nullable=False)
+    user_id = Column(Integer, primary_key=True)
+    first_name = Column(VARCHAR(30), nullable=False)
+    last_name = Column(VARCHAR(30), nullable=False)
+    pswd = Column(VARCHAR(20), nullable=False)
